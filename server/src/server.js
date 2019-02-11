@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import morgan from 'morgan';
 import { ApolloServer } from 'apollo-server-express';
 // Connect files from folders config, resolves, typeDefs
 import { SERVER_PORT, corsDomain, DB_HOST, DB_PORT, DB_NAME } from './config';
@@ -23,6 +24,7 @@ db.on('error', () => { throw new Error('❌  MongoDB: Unable to connect') });
 const app = express();
 app.disable('x-powered-by');
 
+app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(cors({
   origin: corsDomain,
