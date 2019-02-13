@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  #GraphQL API
+  graphql-api:
+    container_name: backend
+    build: ./
+    command: npm start
+    working_dir: /usr/src/graphql-api
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./:/usr/src/graphql-api
