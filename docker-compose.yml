@@ -1,0 +1,42 @@
+version: '3.7'
+services:
+  # React
+  frontend:
+    container_name: frontend
+    restart: always
+    build: ./client
+    command: npm start
+    working_dir: /usr/src/frontend
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/app
+    links:
+      - backend
+
+  # GraphQL API
+  backend:
+    container_name: backend
+    restart: always
+    build: ./server
+    command: npm start
+    working_dir: /usr/src/backend
+    ports:
+      - '4000:4000'
+    volumes:
+      - .:/app
+    links:
+      - mongodb
+
+  # Mongo DB
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    restart: always
+    ports:
+      - '27017:27017'
+  mongo-seed:
+    image: mongo
+    command: mongoimport --host mongodb --db graphqlDB --collection Area --type json --file /server/sead-data/mongo-init.json --jsonArray
+    volumes:
+      - ./seed-data:/sead-data
